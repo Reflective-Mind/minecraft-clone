@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guruzen Minecraft</title>
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        canvas { 
+            display: block; 
+        }
+        #crosshair {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            pointer-events: none;
+            text-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+        }
+        #blockMenu {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            gap: 10px;
+            font-size: 14px;
+            backdrop-filter: blur(5px);
+        }
+        #gameInfo {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 14px;
+            text-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+        }
+        .block-item {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #fff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .block-item:hover {
+            transform: scale(1.1);
+            border-color: #ff0;
+        }
+        .block-item.selected {
+            border-color: #ff0;
+            box-shadow: 0 0 10px rgba(255,255,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="crosshair">+</div>
+    <div id="blockMenu"></div>
+    <div id="gameInfo">
+        Press WASD to move<br>
+        SPACE to jump<br>
+        SHIFT to sprint<br>
+        1-9 to select blocks<br>
+        Click to place blocks<br>
+        Right-click to remove blocks
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/PointerLockControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+    <script src="game.js"></script>
+</body>
+</html> 
