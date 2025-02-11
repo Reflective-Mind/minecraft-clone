@@ -316,6 +316,15 @@ document.addEventListener('keydown', function(event) {
         return;
     }
 
+    // Handle blueprint menu toggle
+    if (event.code === 'KeyB') {
+        event.preventDefault();
+        const blueprintMenu = document.getElementById('blueprintMenu');
+        const isVisible = blueprintMenu.style.display === 'block';
+        toggleBlueprintMenu(!isVisible);
+        return;
+    }
+
     // Only handle movement keys if menu is not shown and controls are locked
     if (!controls.isLocked || document.getElementById('menuScreen').style.display === 'flex') {
         return;
