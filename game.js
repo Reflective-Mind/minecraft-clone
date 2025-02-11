@@ -835,4 +835,103 @@ document.addEventListener('keydown', (event) => {
 // Initialize the game with the new terrain generation
 generateTerrain();
 camera.position.set(0, 20, 5); // Start higher to see the new terrain
-animate(); 
+animate();
+
+// Add menu handling functions
+function toggleMenu(show) {
+    const menuScreen = document.getElementById('menuScreen');
+    if (show) {
+        menuScreen.style.display = 'flex';
+        controls.unlock();
+    } else {
+        menuScreen.style.display = 'none';
+        controls.lock();
+    }
+}
+
+function saveWorld() {
+    try {
+        const worldData = {
+            blocks: Array.from(blocks.entries()).map(([key, block]) => ({
+                key,
+                position: {
+                    x: block.position.x,
+                    y: block.position.y,
+                    z: block.position.z
+                },
+                blockType: block.blockType,
+                blockSize: block.blockSize
+            })),
+            lastSaved: Date.now()
+        };
+        localStorage.setItem('minecraft_world', JSON.stringify(worldData));
+        alert('World saved successfully!');
+    } catch (error) {
+        console.error('Error saving world:', error);
+        alert('Failed to save world: ' + error.message);
+    }
+}
+
+function loadWorld() {
+    try {
+        const savedData = localStorage.getItem('minecraft_world');
+        if (savedData) {
+            const worldData = JSON.parse(savedData);
+            
+            // Clear existing blocks
+            blocks.forEach(block => {
+                scene.remove(block);
+            });
+            blocks.clear();
+            
+            // Load saved blocks
+            worldData.blocks.forEach(blockData => {
+                createBlock(
+                    new THREE.Vector3(
+                        blockData.position.x,
+                        blockData.position.y,
+                        blockData.position.z
+                    ),
+                    blockData.blockType,
+                    blockData.blockSize || 1
+                );
+            });
+            alert('World loaded successfully!');
+            toggleMenu(false);
+        } else {
+            alert('No saved world found!');
+        }
+    } catch (error) {
+        console.error('Error loading world:', error);
+        alert('Failed to load world: ' + error.message);
+    }
+}
+
+function resetWorld() {
+    if (confirm('Are you sure you want to reset the world? This cannot be undone!')) {
+        try {
+            localStorage.removeItem('minecraft_world');
+            
+            // Clear existing blocks
+            blocks.forEach(block => {
+                scene.remove(block);
+            });
+            blocks.clear();
+            
+            // Generate new world
+            generateWorld();
+            alert('World reset successfully!');
+            toggleMenu(false);
+        } catch (error) {
+            console.error('Error resetting world:', error);
+            alert('Failed to reset world: ' + error.message);
+        }
+    }
+}
+
+// Update keyboard controls for menu
+document.addEventListener('keydown', (event) => {
+    if (event.code === 'Escape') {
+        toggleMenu(document.getElementById('menuScreen').style.display !== 'flex');
+    }
+}); 
