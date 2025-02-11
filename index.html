@@ -108,6 +108,130 @@
         .menu-button.resume:hover {
             background: #0b7dda;
         }
+
+        /* Blueprint Menu Styles */
+        #blueprintMenu {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            display: none;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .blueprint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .blueprint-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .blueprint-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .blueprint-preview {
+            width: 100%;
+            height: 150px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .blueprint-title {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .blueprint-description {
+            font-size: 12px;
+            color: #ccc;
+        }
+
+        /* Add new styles for the tabbed menu */
+        .menu-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .tab-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .tab-button.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .blocks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .block-category {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .block-category h3 {
+            color: white;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .block-preview {
+            font-size: 24px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -120,7 +244,8 @@
         1-9 to select blocks<br>
         Click to place blocks<br>
         Right-click to remove blocks<br>
-        ESC for menu
+        ESC for menu<br>
+        B for blueprints
     </div>
     <div id="menuScreen">
         <div class="menu-content">
@@ -131,9 +256,156 @@
             <button class="menu-button resume" onclick="toggleMenu(false)">Resume Game</button>
         </div>
     </div>
+    <div id="blueprintMenu">
+        <h2 style="text-align: center; color: white; margin-bottom: 20px;">Building Menu</h2>
+        <div class="menu-tabs">
+            <button class="tab-button active" onclick="switchTab('blocks')">Blocks</button>
+            <button class="tab-button" onclick="switchTab('blueprints')">Blueprints</button>
+        </div>
+        <div id="blocks-tab" class="tab-content active">
+            <div class="blocks-grid">
+                <div class="block-category">
+                    <h3>Basic Blocks</h3>
+                    <div class="block-item" data-block="GRASS">
+                        <div class="block-preview" style="background-color: #3bba1a">⬛</div>
+                        <div class="block-title">Grass</div>
+                    </div>
+                    <div class="block-item" data-block="DIRT">
+                        <div class="block-preview" style="background-color: #8b4513">⬛</div>
+                        <div class="block-title">Dirt</div>
+                    </div>
+                    <div class="block-item" data-block="STONE">
+                        <div class="block-preview" style="background-color: #808080">⬛</div>
+                        <div class="block-title">Stone</div>
+                    </div>
+                    <div class="block-item" data-block="WOOD">
+                        <div class="block-preview" style="background-color: #966F33">⬛</div>
+                        <div class="block-title">Wood</div>
+                    </div>
+                </div>
+                <div class="block-category">
+                    <h3>Special Blocks</h3>
+                    <div class="block-item" data-block="GOLD">
+                        <div class="block-preview" style="background-color: #FFD700">⬛</div>
+                        <div class="block-title">Gold</div>
+                    </div>
+                    <div class="block-item" data-block="DIAMOND">
+                        <div class="block-preview" style="background-color: #00ffff">⬛</div>
+                        <div class="block-title">Diamond</div>
+                    </div>
+                    <div class="block-item" data-block="GLASS">
+                        <div class="block-preview" style="background-color: #add8e6">⬛</div>
+                        <div class="block-title">Glass</div>
+                    </div>
+                    <div class="block-item" data-block="ICE">
+                        <div class="block-preview" style="background-color: #ADD8E6">⬛</div>
+                        <div class="block-title">Ice</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="blueprints-tab" class="tab-content">
+            <div class="blueprint-grid">
+                <div class="blueprint-item" data-blueprint="beautifulTree">
+                    <div class="blueprint-preview">🌳</div>
+                    <div class="blueprint-title">Beautiful Tree</div>
+                    <div class="blueprint-description">A majestic tree with a detailed canopy</div>
+                </div>
+                <div class="blueprint-item" data-blueprint="cozyHouse">
+                    <div class="blueprint-preview">🏠</div>
+                    <div class="blueprint-title">Cozy House</div>
+                    <div class="blueprint-description">A small, comfortable house with windows</div>
+                </div>
+                <div class="blueprint-item" data-blueprint="magicPortal">
+                    <div class="blueprint-preview">🌀</div>
+                    <div class="blueprint-title">Magic Portal</div>
+                    <div class="blueprint-description">A mystical portal with glowing elements</div>
+                </div>
+                <div class="blueprint-item" data-blueprint="crystalGarden">
+                    <div class="blueprint-preview">💎</div>
+                    <div class="blueprint-title">Crystal Garden</div>
+                    <div class="blueprint-description">A beautiful garden with crystals</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio id="blockBreakSound" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3" type="audio/mpeg">
+    </audio>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/PointerLockControls.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
     <script src="game.js"></script>
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            document.querySelector(`.tab-button[onclick="switchTab('${tabName}')"]`).classList.add('active');
+        }
+
+        // Initialize menu when the document is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Initializing building menu...');
+            
+            // Handle block selection
+            document.querySelectorAll('.block-item[data-block]').forEach(item => {
+                item.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    
+                    const blockType = item.getAttribute('data-block');
+                    console.log('Selected block:', blockType);
+                    
+                    // Update the selected block type
+                    if (window.blockTypes && window.blockTypes[blockType]) {
+                        window.selectedBlockType = window.blockTypes[blockType];
+                        window.isPlacingBlueprint = false;
+                        window.selectedBlueprint = null;
+                        window.updateBlockMenu(); // Update the block menu display
+                        console.log('Block type updated:', window.selectedBlockType);
+                    } else {
+                        console.error('Invalid block type:', blockType);
+                    }
+                    
+                    window.toggleBlueprintMenu(false);
+                });
+            });
+            
+            // Handle blueprint selection
+            document.querySelectorAll('.blueprint-item[data-blueprint]').forEach(item => {
+                item.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    
+                    const blueprintId = item.getAttribute('data-blueprint');
+                    console.log('Selected blueprint:', blueprintId);
+                    
+                    // Update the selected blueprint
+                    if (window.blueprints && window.blueprints[blueprintId]) {
+                        window.selectedBlueprint = window.blueprints[blueprintId];
+                        window.isPlacingBlueprint = true;
+                        console.log('Blueprint updated:', window.selectedBlueprint);
+                    } else {
+                        console.error('Invalid blueprint:', blueprintId);
+                    }
+                    
+                    window.toggleBlueprintMenu(false);
+                });
+            });
+
+            // Prevent clicks within the menu from triggering pointer lock
+            document.getElementById('blueprintMenu').addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
+        });
+    </script>
 </body>
 </html> 
