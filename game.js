@@ -1195,17 +1195,6 @@ function toggleBlueprintMenu(show) {
     }
 }
 
-// Update keyboard event listener for blueprint menu
-document.addEventListener('keydown', (event) => {
-    if (event.code === 'KeyB') {
-        event.preventDefault();
-        const blueprintMenu = document.getElementById('blueprintMenu');
-        const isVisible = blueprintMenu.style.display === 'block';
-        console.log('Blueprint menu toggle triggered. Current visibility:', isVisible);
-        toggleBlueprintMenu(!isVisible);
-    }
-});
-
 // Function to place blueprint
 function placeBlueprint(position) {
     if (!selectedBlueprint) {
