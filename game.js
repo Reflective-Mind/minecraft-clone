@@ -531,12 +531,13 @@ document.addEventListener('keydown', (event) => {
         return;
     }
 
-    // Only handle block selection if menu is not shown
+    // Only handle block selection if menu is not shown and blueprint menu is not visible
     if (document.getElementById('menuScreen').style.display === 'flex' ||
         document.getElementById('blueprintMenu').style.display === 'block') {
         return;
     }
 
+    // Block selection with number keys
     let blockChanged = true;
     switch (event.code) {
         case 'Digit1': selectedBlockType = blockTypes.GRASS; break;
